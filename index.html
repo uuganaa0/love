@@ -3,61 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Romantic Page 💖</title>
+<title>Надтай үерхээч 💖</title>
 <style>
 body {
   margin: 0;
   padding: 0;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   font-family: Arial, sans-serif;
-  background: #111; /* Dark background, but not fully black */
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+  text-align: center;
 }
-#imageContainer {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 25px;
-  overflow: hidden;
-  /* subtle shadow */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+/* Main Text */
+#mainText {
+  font-size: 3em;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.7);
+  animation: shine 2s infinite alternate;
+  margin-bottom: 50px;
 }
-#romanticImage {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+@keyframes shine {
+  0% { text-shadow: 0 0 10px rgba(255,255,255,0.5); transform: scale(1);}
+  50% { text-shadow: 0 0 30px rgba(255,255,255,1); transform: scale(1.1);}
+  100% { text-shadow: 0 0 10px rgba(255,255,255,0.5); transform: scale(1);}
 }
-#buttons {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  gap: 15px;
-  z-index: 5;
-}
+/* Buttons */
 button {
-  padding: 18px 35px;
-  font-size: 1.3em;
+  padding: 18px 40px;
+  font-size: 1.5em;
   border: none;
   border-radius: 35px;
   cursor: pointer;
   font-weight: bold;
+  margin: 0 15px;
   transition: transform 0.2s, box-shadow 0.3s;
 }
-button:hover { 
+button:hover {
   transform: scale(1.15);
   box-shadow: 0 0 20px rgba(255,0,100,0.7);
 }
 #yes { background: #ff2e63; color: white; }
 #no { background: white; color: #ff2e63; }
+/* Play/Pause */
 #playPause {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   width: 55px;
@@ -70,7 +64,6 @@ button:hover {
   font-size: 26px;
   cursor: pointer;
   z-index: 10;
-  user-select: none;
   box-shadow: 0 0 15px rgba(255,0,150,0.6);
   animation: pulse 2s infinite;
 }
@@ -107,23 +100,18 @@ button:hover {
 </head>
 <body>
 
-<div id="imageContainer">
-  <img src="romantic_pic.png" id="romanticImage" alt="Romantic Image">
-  <div id="buttons">
-    <button id="yes">Тийм 💖</button>
-    <button id="no">Үгүй 😅</button>
-  </div>
-  <div id="playPause">▶️</div>
+<div id="mainText">Надтай үерхээч 💖</div>
+
+<div id="buttons">
+  <button id="yes">Тийм 💖</button>
+  <button id="no">Үгүй 😅</button>
 </div>
+
+<div id="playPause">▶️</div>
 
 <audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
-// Subtle zoom
-const img = document.getElementById('romanticImage');
-img.addEventListener('mouseover', ()=>{ img.style.transform = 'scale(1.05)'; });
-img.addEventListener('mouseout', ()=>{ img.style.transform = 'scale(1)'; });
-
 // Hearts
 function createHeart() {
   const heart = document.createElement("div");
@@ -148,14 +136,14 @@ function createConfetti() {
   setTimeout(() => confetti.remove(), 3000);
 }
 
-// Buttons logic
+// Buttons
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
-const buttons = document.getElementById("buttons");
 const bgMusic = document.getElementById("bgMusic");
+const playPauseBtn = document.getElementById('playPause');
 
 yesBtn.onclick = () => {
-  buttons.style.display = "none";
+  document.getElementById('buttons').style.display = 'none';
   for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
   setInterval(createHeart,400);
   if(bgMusic.paused){ bgMusic.play(); playPauseBtn.textContent='⏸️'; }
@@ -163,7 +151,6 @@ yesBtn.onclick = () => {
 
 noBtn.addEventListener("touchstart", moveButton);
 noBtn.addEventListener("mouseover", moveButton);
-
 function moveButton(){
   const x = Math.random()*(window.innerWidth-100);
   const y = Math.random()*(window.innerHeight-50);
@@ -173,7 +160,6 @@ function moveButton(){
 }
 
 // Play/Pause button
-const playPauseBtn = document.getElementById('playPause');
 playPauseBtn.onclick = () => {
   if(bgMusic.paused){
     bgMusic.play();
