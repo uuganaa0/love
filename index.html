@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Надтай үерхээч 💖</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+#text {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #ff2e63;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yes {
+  background: #ff2e63;
+  color: white;
+}
+
+#no {
+  background: white;
+  color: #ff2e63;
+}
+
+#message {
+  margin-top: 20px;
+  font-size: 1.6em;
+  display: none;
+}
+
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: floatUp 4s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(100vh) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10vh) scale(0.5);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div id="text"></div>
+  <div id="buttons">
+    <button id="yes">Тийм 💖</button>
+    <button id="no">Үгүй 😅</button>
+  </div>
+  <div id="message">Би чамд хайртай 😘💞</div>
+</div>
+
+<script>
+const text = "Надтай үерхээч 💘";
+let i = 0;
+const speed = 120;
+const textDiv = document.getElementById("text");
+
+function typeWriter() {
+  if (i < text.length) {
+    textDiv.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+typeWriter();
+
+// Heart animation
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
+setInterval(createHeart, 400);
+
+// Buttons
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const message = document.getElementById("message");
+const buttons = document.getElementById("buttons");
+
+yesBtn.onclick = () => {
+  buttons.style.display = "none";
+  message.style.display = "block";
+};
+
+noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("mouseover", moveButton);
+
+function moveButton() {
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 50);
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+</script>
+
+</body>
+</html>
