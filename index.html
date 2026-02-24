@@ -9,46 +9,48 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
   overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: #000; /* black behind image */
 }
-.container {
-  text-align: center;
-  color: white;
-  z-index: 2;
+#imageContainer {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
 }
-#text {
-  font-size: 2.5em;
-  font-weight: bold;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+#romanticImage {
+  width: 100%;
+  display: block;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
-/* Buttons */
+/* Buttons overlay */
+#buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 15px;
+  z-index: 5;
+}
 button {
   padding: 18px 35px;
   font-size: 1.3em;
   border: none;
   border-radius: 35px;
   cursor: pointer;
-  margin: 12px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  background: rgba(255,255,255,0.8);
+  color: #ff2e63;
+  font-weight: bold;
+  transition: transform 0.2s;
 }
-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
+button:hover { transform: scale(1.1); }
 #yes { background: #ff2e63; color: white; }
 #no { background: white; color: #ff2e63; }
-#message {
-  margin-top: 20px;
-  font-size: 1.8em;
-  display: none;
-  text-shadow: 2px 2px 15px rgba(0,0,0,0.4);
-}
 /* Heart animation */
 .heart {
   position: absolute;
@@ -74,42 +76,16 @@ button:hover {
   0% { transform: translateY(0) rotate(0deg); opacity: 1;}
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0;}
 }
-/* Image style */
-#romanticImage {
-  width: 100%;
-  max-width: 600px;
-  display: block;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  position: relative;
-}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <div id="text">Надтай үерхээч 💘</div>
-
-  <!-- Image container with overlay buttons -->
-  <div style="position: relative; display: inline-block; width: 100%; max-width: 600px;">
-    <img src="romantic_design.png" id="romanticImage" alt="Romantic Design">
-
-    <!-- Buttons overlay -->
-    <div id="buttons" style="
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      gap: 15px;
-      z-index: 5;
-    ">
-      <button id="yes">Тийм 💖</button>
-      <button id="no">Үгүй 😅</button>
-    </div>
+<div id="imageContainer">
+  <img src="romantic_design.png" id="romanticImage" alt="Romantic Image">
+  <div id="buttons">
+    <button id="yes">Тийм 💖</button>
+    <button id="no">Үгүй 😅</button>
   </div>
-
-  <div id="message">Би чамд үнэхээр их хайртай 💞😘</div>
 </div>
 
 <!-- Audio -->
@@ -133,31 +109,26 @@ function createConfetti() {
   const confetti = document.createElement("div");
   confetti.classList.add("confetti");
   confetti.style.left = Math.random() * window.innerWidth + "px";
-  confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
-  confetti.style.width = Math.random()*10 + 5 + "px";
+  confetti.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
+  confetti.style.width = Math.random()*10+5 + "px";
   confetti.style.height = confetti.style.width;
   document.body.appendChild(confetti);
   setTimeout(() => confetti.remove(), 3000);
 }
 
-// Buttons logic
+// Buttons
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
-const message = document.getElementById("message");
 const buttons = document.getElementById("buttons");
 const bgMusic = document.getElementById("bgMusic");
 
 yesBtn.onclick = () => {
-  buttons.style.display = "none";
-  message.style.display = "block";
-  alert("Би чамд үнэхээр их хайртай 💞😘");
-
+  buttons.style.display = "none"; // hide buttons
   for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
-
+  setInterval(createHeart,400);
   bgMusic.play();
 };
 
-// Move "no" button
 noBtn.addEventListener("touchstart", moveButton);
 noBtn.addEventListener("mouseover", moveButton);
 
