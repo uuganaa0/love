@@ -14,7 +14,7 @@ body {
   align-items: center;
   overflow: hidden;
   font-family: Arial, sans-serif;
-  background: #000; /* black behind image */
+  background: #000;
 }
 /* Image container */
 #imageContainer {
@@ -30,14 +30,6 @@ body {
   width: 100%;
   display: block;
   transition: transform 0.5s ease;
-}
-/* Gradient overlay */
-#gradientOverlay {
-  position: absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: linear-gradient(rgba(255,0,100,0.2), rgba(255,255,255,0.1));
-  pointer-events: none;
 }
 /* Buttons overlay */
 #buttons {
@@ -91,16 +83,13 @@ button:hover { transform: scale(1.1); }
 <body>
 
 <div id="imageContainer">
-  <img src="romantic_design.png" id="romanticImage" alt="Romantic Image">
-  <div id="gradientOverlay"></div>
-
+  <img src="a_digital_illustration_in_a_romantic_and_interacti.png" id="romanticImage" alt="Romantic Image">
   <div id="buttons">
     <button id="yes">Тийм 💖</button>
     <button id="no">Үгүй 😅</button>
   </div>
 </div>
 
-<!-- Audio -->
 <audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
