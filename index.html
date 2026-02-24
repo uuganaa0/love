@@ -25,7 +25,7 @@ body {
   box-shadow: 0 15px 40px rgba(0,0,0,0.5);
   overflow: hidden;
 }
-/* Romantic image with subtle zoom */
+/* Romantic image */
 #romanticImage {
   width: 100%;
   display: block;
@@ -53,6 +53,23 @@ button {
 button:hover { transform: scale(1.1); }
 #yes { background: #ff2e63; color: white; }
 #no { background: white; color: #ff2e63; }
+/* Play/Pause button */
+#playPause {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+}
 /* Hearts */
 .heart {
   position: absolute;
@@ -83,17 +100,23 @@ button:hover { transform: scale(1.1); }
 <body>
 
 <div id="imageContainer">
-  <img src="a_digital_illustration_in_a_romantic_and_interacti.png" id="romanticImage" alt="Romantic Image">
+  <img src="romantic_pic.png" id="romanticImage" alt="Romantic Image">
+  
+  <!-- Overlay Buttons -->
   <div id="buttons">
     <button id="yes">Тийм 💖</button>
     <button id="no">Үгүй 😅</button>
   </div>
+
+  <!-- Play/Pause -->
+  <div id="playPause">▶️</div>
 </div>
 
+<!-- Audio -->
 <audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
-// Subtle zoom on hover
+// Subtle zoom
 const img = document.getElementById('romanticImage');
 img.addEventListener('mouseover', ()=>{ img.style.transform = 'scale(1.05)'; });
 img.addEventListener('mouseout', ()=>{ img.style.transform = 'scale(1)'; });
@@ -132,7 +155,7 @@ yesBtn.onclick = () => {
   buttons.style.display = "none";
   for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
   setInterval(createHeart,400);
-  bgMusic.play();
+  if(bgMusic.paused) { bgMusic.play(); document.getElementById('playPause').textContent = '⏸️'; }
 };
 
 noBtn.addEventListener("touchstart", moveButton);
@@ -145,6 +168,18 @@ function moveButton(){
   noBtn.style.left=x+"px";
   noBtn.style.top=y+"px";
 }
+
+// Play/Pause button logic
+const playPauseBtn = document.getElementById('playPause');
+playPauseBtn.onclick = () => {
+  if(bgMusic.paused){
+    bgMusic.play();
+    playPauseBtn.textContent = '⏸️';
+  } else {
+    bgMusic.pause();
+    playPauseBtn.textContent = '▶️';
+  }
+};
 </script>
 
 </body>
