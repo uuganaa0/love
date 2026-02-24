@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Надтай үерхээч 💖</title>
+<title>Ultimate Romantic Page 💖</title>
 <style>
 body {
   margin: 0;
@@ -16,22 +16,20 @@ body {
   font-family: Arial, sans-serif;
   background: #000;
 }
-/* Image container */
 #imageContainer {
   position: relative;
   width: 100%;
   max-width: 600px;
   border-radius: 25px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.6);
   overflow: hidden;
+  transition: transform 0.5s ease;
 }
-/* Romantic image */
 #romanticImage {
   width: 100%;
   display: block;
   transition: transform 0.5s ease;
 }
-/* Buttons overlay */
 #buttons {
   position: absolute;
   top: 50%;
@@ -48,27 +46,35 @@ button {
   border-radius: 35px;
   cursor: pointer;
   font-weight: bold;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
-button:hover { transform: scale(1.1); }
+button:hover { 
+  transform: scale(1.15);
+  box-shadow: 0 0 20px rgba(255,0,100,0.7);
+}
 #yes { background: #ff2e63; color: white; }
 #no { background: white; color: #ff2e63; }
-/* Play/Pause button */
 #playPause {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.9);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
   z-index: 10;
   user-select: none;
+  box-shadow: 0 0 15px rgba(255,0,150,0.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 15px rgba(255,0,150,0.6); transform: scale(1);}
+  50% { box-shadow: 0 0 35px rgba(255,0,150,0.9); transform: scale(1.1);}
 }
 /* Hearts */
 .heart {
@@ -76,6 +82,10 @@ button:hover { transform: scale(1.1); }
   font-size: 22px;
   animation: floatUp 4s linear infinite;
   opacity: 0.8;
+}
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(1); opacity: 1; }
+  100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
 }
 /* Confetti */
 .confetti {
@@ -87,10 +97,6 @@ button:hover { transform: scale(1.1); }
   z-index: 999;
   animation: confettiFall 3s linear forwards;
 }
-@keyframes floatUp {
-  0% { transform: translateY(100vh) scale(1); opacity: 1; }
-  100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
-}
 @keyframes confettiFall {
   0% { transform: translateY(0) rotate(0deg); opacity: 1;}
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0;}
@@ -101,18 +107,13 @@ button:hover { transform: scale(1.1); }
 
 <div id="imageContainer">
   <img src="romantic_pic.png" id="romanticImage" alt="Romantic Image">
-  
-  <!-- Overlay Buttons -->
   <div id="buttons">
     <button id="yes">Тийм 💖</button>
     <button id="no">Үгүй 😅</button>
   </div>
-
-  <!-- Play/Pause -->
   <div id="playPause">▶️</div>
 </div>
 
-<!-- Audio -->
 <audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
@@ -121,7 +122,7 @@ const img = document.getElementById('romanticImage');
 img.addEventListener('mouseover', ()=>{ img.style.transform = 'scale(1.05)'; });
 img.addEventListener('mouseout', ()=>{ img.style.transform = 'scale(1)'; });
 
-// Hearts animation
+// Hearts
 function createHeart() {
   const heart = document.createElement("div");
   heart.classList.add("heart");
@@ -133,7 +134,7 @@ function createHeart() {
 }
 setInterval(createHeart, 400);
 
-// Confetti animation
+// Confetti
 function createConfetti() {
   const confetti = document.createElement("div");
   confetti.classList.add("confetti");
@@ -145,7 +146,7 @@ function createConfetti() {
   setTimeout(() => confetti.remove(), 3000);
 }
 
-// Buttons
+// Buttons logic
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const buttons = document.getElementById("buttons");
@@ -155,7 +156,7 @@ yesBtn.onclick = () => {
   buttons.style.display = "none";
   for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
   setInterval(createHeart,400);
-  if(bgMusic.paused) { bgMusic.play(); document.getElementById('playPause').textContent = '⏸️'; }
+  if(bgMusic.paused){ bgMusic.play(); playPauseBtn.textContent='⏸️'; }
 };
 
 noBtn.addEventListener("touchstart", moveButton);
@@ -169,15 +170,15 @@ function moveButton(){
   noBtn.style.top=y+"px";
 }
 
-// Play/Pause button logic
+// Play/Pause button
 const playPauseBtn = document.getElementById('playPause');
 playPauseBtn.onclick = () => {
   if(bgMusic.paused){
     bgMusic.play();
-    playPauseBtn.textContent = '⏸️';
+    playPauseBtn.textContent='⏸️';
   } else {
     bgMusic.pause();
-    playPauseBtn.textContent = '▶️';
+    playPauseBtn.textContent='▶️';
   }
 };
 </script>
