@@ -7,69 +7,93 @@
 <style>
 body {
   margin: 0;
+  padding: 0;
   height: 100vh;
   background: linear-gradient(135deg, #ff758c, #ff7eb3);
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Arial', sans-serif;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  position: relative;
 }
 .container {
   text-align: center;
   color: white;
   padding: 20px;
+  z-index: 2;
 }
 #text {
-  font-size: 2em;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px #ff2e63;
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
 }
 button {
-  padding: 15px 30px;
-  font-size: 1.2em;
+  padding: 18px 35px;
+  font-size: 1.3em;
   border: none;
-  border-radius: 30px;
+  border-radius: 35px;
   cursor: pointer;
-  margin: 10px;
+  margin: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 #yes { background: #ff2e63; color: white; }
 #no { background: white; color: #ff2e63; }
 #message {
   margin-top: 20px;
-  font-size: 1.6em;
+  font-size: 1.8em;
   display: none;
+  text-shadow: 2px 2px 15px rgba(0,0,0,0.4);
 }
+/* Heart animation */
 .heart {
   position: absolute;
-  font-size: 20px;
+  font-size: 22px;
   animation: floatUp 4s linear infinite;
   opacity: 0.8;
 }
-@keyframes floatUp {
-  from { transform: translateY(100vh) scale(1); opacity: 1;}
-  to { transform: translateY(-10vh) scale(0.5); opacity: 0;}
-}
-/* Confetti styles */
+/* Confetti */
 .confetti {
   position: absolute;
   width: 10px;
   height: 10px;
   opacity: 0.7;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 999;
   animation: confettiFall 3s linear forwards;
+}
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(1); opacity: 1; }
+  100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
 }
 @keyframes confettiFall {
   0% { transform: translateY(0) rotate(0deg); opacity: 1;}
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0;}
+}
+/* Image style */
+#romanticImage {
+  width: 100%;
+  max-width: 600px;
+  display: block;
+  margin: 20px auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div id="text"></div>
+  <div id="text">Надтай үерхээч 💘</div>
+  
+  <!-- YOUR IMAGE HERE -->
+  <img src="romantic_design.png" id="romanticImage" alt="Romantic Design">
+
   <div id="buttons">
     <button id="yes">Тийм 💖</button>
     <button id="no">Үгүй 😅</button>
@@ -77,33 +101,17 @@ button {
   <div id="message">Би чамд үнэхээр их хайртай 💞😘</div>
 </div>
 
-<!-- YouTube Background Music -->
-<iframe id="bgMusic" width="0" height="0"
-src="https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=0&controls=0&loop=1&playlist=2Vv-BfVoq4g"
-allow="autoplay" style="display:none"></iframe>
+<!-- Audio -->
+<audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
-const text = "Надтай үерхээч 💘";
-let i = 0;
-const speed = 120;
-const textDiv = document.getElementById("text");
-
-function typeWriter() {
-  if (i < text.length) {
-    textDiv.innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typeWriter, speed);
-  }
-}
-typeWriter();
-
 // Heart animation
 function createHeart() {
   const heart = document.createElement("div");
   heart.classList.add("heart");
   heart.innerHTML = "❤️";
   heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+  heart.style.animationDuration = (Math.random()*2 + 3) + "s";
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 4000);
 }
@@ -121,7 +129,7 @@ function createConfetti() {
   setTimeout(() => confetti.remove(), 3000);
 }
 
-// Buttons
+// Buttons logic
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const message = document.getElementById("message");
@@ -131,27 +139,23 @@ const bgMusic = document.getElementById("bgMusic");
 yesBtn.onclick = () => {
   buttons.style.display = "none";
   message.style.display = "block";
-
-  // Popup message
   alert("Би чамд үнэхээр их хайртай 💞😘");
+  for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
 
-  // Confetti burst
-  for (let i=0; i<50; i++) setTimeout(createConfetti, i*50);
-
-  // Play YouTube music
-  bgMusic.src += "&autoplay=1";
+  // Play music
+  bgMusic.play();
 };
 
 // Move "no" button
 noBtn.addEventListener("touchstart", moveButton);
 noBtn.addEventListener("mouseover", moveButton);
 
-function moveButton() {
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
-  noBtn.style.position = "absolute";
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+function moveButton(){
+  const x = Math.random()*(window.innerWidth-100);
+  const y = Math.random()*(window.innerHeight-50);
+  noBtn.style.position="absolute";
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
 }
 </script>
 
