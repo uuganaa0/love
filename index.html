@@ -47,15 +47,14 @@ button {
   opacity: 0.8;
 }
 @keyframes floatUp {
-  from { transform: translateY(100vh) scale(1); opacity: 1; }
-  to { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+  from { transform: translateY(100vh) scale(1); opacity: 1;}
+  to { transform: translateY(-10vh) scale(0.5); opacity: 0;}
 }
 /* Confetti styles */
 .confetti {
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color: red;
   opacity: 0.7;
   pointer-events: none;
   z-index: 9999;
@@ -69,10 +68,6 @@ button {
 </head>
 <body>
 
-<audio id="bgMusic" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
-</audio>
-
 <div class="container">
   <div id="text"></div>
   <div id="buttons">
@@ -81,6 +76,11 @@ button {
   </div>
   <div id="message">Би чамд үнэхээр их хайртай 💞😘</div>
 </div>
+
+<!-- YouTube Background Music -->
+<iframe id="bgMusic" width="0" height="0"
+src="https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=0&controls=0&loop=1&playlist=2Vv-BfVoq4g"
+allow="autoplay" style="display:none"></iframe>
 
 <script>
 const text = "Надтай үерхээч 💘";
@@ -131,15 +131,15 @@ const bgMusic = document.getElementById("bgMusic");
 yesBtn.onclick = () => {
   buttons.style.display = "none";
   message.style.display = "block";
-  bgMusic.play();
 
   // Popup message
   alert("Би чамд үнэхээр их хайртай 💞😘");
 
   // Confetti burst
-  for (let i=0; i<50; i++) {
-    setTimeout(createConfetti, i*50);
-  }
+  for (let i=0; i<50; i++) setTimeout(createConfetti, i*50);
+
+  // Play YouTube music
+  bgMusic.src += "&autoplay=1";
 };
 
 // Move "no" button
