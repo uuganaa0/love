@@ -25,6 +25,12 @@ body {
   50%{ text-shadow:0 0 30px rgba(255,255,255,1); transform:scale(1.1);}
   100%{ text-shadow:0 0 10px rgba(255,255,255,0.5); transform:scale(1);}
 }
+#buttons {
+  display:flex;
+  justify-content:center;
+  gap: 80px; /* Товчнуудын хооронд зай нэмэгдэнэ */
+  margin-top:20px;
+}
 button {
   padding:18px 40px; font-size:1.5em; border:none; border-radius:35px;
   cursor:pointer; font-weight:bold; margin:0 15px; transition: transform 0.2s, box-shadow 0.3s;
@@ -133,3 +139,4 @@ playPauseBtn.onclick=()=>{
 </script>
 </body>
 </html>
+
