@@ -13,36 +13,25 @@ body {
   text-align:center;
   overflow:hidden;
 }
-/* Main Text */
 #mainText {
-  font-size:3em;
-  font-weight:bold;
-  color:#fff;
+  font-size:3em; font-weight:bold; color:#fff;
   text-shadow:0 0 10px rgba(255,255,255,0.7);
   animation: shine 2s infinite alternate;
-  margin-bottom:50px;
-  position: relative;
+  margin-bottom:50px; position: relative;
 }
 @keyframes shine {
   0% { text-shadow:0 0 10px rgba(255,255,255,0.5); transform:scale(1);}
   50%{ text-shadow:0 0 30px rgba(255,255,255,1); transform:scale(1.1);}
   100%{ text-shadow:0 0 10px rgba(255,255,255,0.5); transform:scale(1);}
 }
-/* Buttons */
 button {
-  padding:18px 40px;
-  font-size:1.5em;
-  border:none;
-  border-radius:35px;
-  cursor:pointer;
-  font-weight:bold;
-  margin:0 15px;
+  padding:18px 40px; font-size:1.5em; border:none; border-radius:35px;
+  cursor:pointer; font-weight:bold; margin:0 15px;
   transition: transform 0.2s, box-shadow 0.3s;
 }
-button:hover { transform: scale(1.15); box-shadow:0 0 20px rgba(255,0,100,0.7); }
+button:hover { transform: scale(1.15); box-shadow:0 0 20px rgba(255,0,100,0.7);}
 #yes { background:#ff2e63; color:white;}
 #no { background:white; color:#ff2e63;}
-/* Play/Pause */
 #playPause {
   position:fixed; bottom:20px; right:20px; width:55px; height:55px;
   border-radius:50%; background:rgba(255,255,255,0.9);
@@ -52,22 +41,15 @@ button:hover { transform: scale(1.15); box-shadow:0 0 20px rgba(255,0,100,0.7); 
   animation:pulse 2s infinite;
 }
 @keyframes pulse {
-  0%,100%{ box-shadow:0 0 15px rgba(255,0,150,0.6); transform:scale(1);}
-  50%{ box-shadow:0 0 35px rgba(255,0,150,0.9); transform:scale(1.1);}
+  0%,100{box-shadow:0 0 15px rgba(255,0,150,0.6); transform:scale(1);}
+  50%{box-shadow:0 0 35px rgba(255,0,150,0.9); transform:scale(1.1);}
 }
-/* Floating hearts for text */
-.textHeart {
-  position:absolute; font-size:14px; animation: floatUpText 3s linear forwards; opacity:0.9;
-}
-@keyframes floatUpText {
-  0%{ transform: translateY(0) scale(1); opacity:1;}
-  100%{ transform: translateY(-60px) scale(0.5); opacity:0;}
-}
-/* Floating Hearts + Confetti */
-.heart { position:absolute; font-size:22px; animation: floatUp 4s linear infinite; opacity:0.8; }
-@keyframes floatUp { 0% { transform: translateY(100vh) scale(1); opacity:1;} 100% { transform: translateY(-10vh) scale(0.5); opacity:0;} }
+.textHeart { position:absolute; font-size:14px; animation: floatUpText 3s linear forwards; opacity:0.9;}
+@keyframes floatUpText {0%{transform:translateY(0) scale(1);opacity:1;} 100%{transform:translateY(-60px) scale(0.5);opacity:0;}}
+.heart { position:absolute; font-size:22px; animation: floatUp 4s linear infinite; opacity:0.8;}
+@keyframes floatUp {0%{transform:translateY(100vh) scale(1);opacity:1;}100%{transform:translateY(-10vh) scale(0.5);opacity:0;}}
 .confetti { position:absolute; width:10px; height:10px; opacity:0.7; pointer-events:none; z-index:999; animation: confettiFall 3s linear forwards;}
-@keyframes confettiFall { 0%{ transform:translateY(0) rotate(0deg); opacity:1;} 100%{ transform:translateY(100vh) rotate(360deg); opacity:0;}}
+@keyframes confettiFall {0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(360deg);opacity:0;}}
 </style>
 </head>
 <body>
@@ -84,12 +66,11 @@ button:hover { transform: scale(1.15); box-shadow:0 0 20px rgba(255,0,100,0.7); 
 <audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
-// Floating hearts on text
+// Floating hearts for text
 function createTextHeart(){
-  const h = document.createElement("div");
-  h.classList.add("textHeart");
-  h.innerHTML="❤️";
-  h.style.left = Math.random()*120-60 + "px"; // around text
+  const h=document.createElement("div");
+  h.classList.add("textHeart"); h.innerHTML="❤️";
+  h.style.left = Math.random()*120-60 + "px";
   document.getElementById('mainText').appendChild(h);
   setTimeout(()=>h.remove(),3000);
 }
@@ -97,11 +78,10 @@ setInterval(createTextHeart,300);
 
 // Hearts
 function createHeart() {
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.innerHTML="❤️";
-  heart.style.left = Math.random()*100 + "vw";
-  heart.style.animationDuration = (Math.random()*2+3)+"s";
+  const heart=document.createElement("div");
+  heart.classList.add("heart"); heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(Math.random()*2+3)+"s";
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(),4000);
 }
@@ -109,14 +89,11 @@ setInterval(createHeart,400);
 
 // Confetti
 function createConfetti() {
-  const c=document.createElement("div");
-  c.classList.add("confetti");
+  const c=document.createElement("div"); c.classList.add("confetti");
   c.style.left=Math.random()*window.innerWidth+"px";
   c.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;
-  c.style.width=Math.random()*10+5+"px";
-  c.style.height=c.style.width;
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(),3000);
+  c.style.width=Math.random()*10+5+"px"; c.style.height=c.style.width;
+  document.body.appendChild(c); setTimeout(()=>c.remove(),3000);
 }
 
 // Buttons
@@ -130,17 +107,18 @@ yesBtn.onclick=()=>{
   document.getElementById('buttons').style.display='none';
   for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
   setInterval(createHeart,400);
-  mainText.textContent="Би чамд хайртай 💖";
+  mainText.textContent="Би чамд хайртай болж хувирна 💖";
+  // ✅ Play music automatically
+  bgMusic.play().catch(()=>{console.log("User interaction required for autoplay")});
+  playPauseBtn.textContent='⏸️';
 };
 
-noBtn.addEventListener("touchstart", moveButton);
-noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("touchstart",moveButton);
+noBtn.addEventListener("mouseover",moveButton);
 function moveButton(){
   const x=Math.random()*(window.innerWidth-100);
   const y=Math.random()*(window.innerHeight-50);
-  noBtn.style.position="absolute";
-  noBtn.style.left=x+"px";
-  noBtn.style.top=y+"px";
+  noBtn.style.position="absolute"; noBtn.style.left=x+"px"; noBtn.style.top=y+"px";
 }
 
 // Play/Pause
@@ -152,4 +130,3 @@ playPauseBtn.onclick=()=>{
 
 </body>
 </html>
-
