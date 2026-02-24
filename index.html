@@ -40,7 +40,9 @@ button:hover { transform: scale(1.15); box-shadow:0 0 20px rgba(255,0,100,0.7);}
   box-shadow:0 0 15px rgba(255,0,150,0.6);
   animation:pulse 2s infinite;
 }
-@keyframes pulse {0%,100{box-shadow:0 0 15px rgba(255,0,150,0.6); transform:scale(1);}50%{box-shadow:0 0 35px rgba(255,0,150,0.9); transform:scale(1.1);}}
+@keyframes pulse {0%,100%{box-shadow:0 0 15px rgba(255,0,150,0.6); transform:scale(1);}50%{box-shadow:0 0 35px rgba(255,0,150,0.9); transform:scale(1.1);}}
+
+/* Big Heart */
 #bigHeart {
   position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0);
   font-size:120px; color:#ff2e63; text-shadow:0 0 50px #ff2e63,0 0 100px #ff6b9f;
@@ -70,7 +72,7 @@ button:hover { transform: scale(1.15); box-shadow:0 0 20px rgba(255,0,100,0.7);}
 <audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
-// Floating hearts
+// Floating text hearts
 function createTextHeart(){
   const h=document.createElement("div"); h.classList.add("textHeart"); h.innerHTML="❤️";
   h.style.left=Math.random()*120-60+"px"; document.body.appendChild(h);
@@ -99,7 +101,6 @@ function createSparkle(x,y){
   document.body.appendChild(s); setTimeout(()=>s.remove(),1500);
 }
 
-// Buttons
 const yesBtn=document.getElementById("yes");
 const noBtn=document.getElementById("no");
 const bgMusic=document.getElementById("bgMusic");
@@ -125,7 +126,6 @@ function moveButton(){
   noBtn.style.position="absolute"; noBtn.style.left=x+"px"; noBtn.style.top=y+"px";
 }
 
-// Play/Pause
 playPauseBtn.onclick=()=>{
   if(bgMusic.paused){ bgMusic.play(); playPauseBtn.textContent='⏸️'; }
   else{ bgMusic.pause(); playPauseBtn.textContent='▶️'; }
