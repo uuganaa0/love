@@ -11,6 +11,7 @@ body {
   font-family:Arial,sans-serif;
   background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
   text-align:center;
+  overflow:hidden;
 }
 /* Main Text */
 #mainText {
@@ -20,6 +21,7 @@ body {
   text-shadow:0 0 10px rgba(255,255,255,0.7);
   animation: shine 2s infinite alternate;
   margin-bottom:50px;
+  position: relative;
 }
 @keyframes shine {
   0% { text-shadow:0 0 10px rgba(255,255,255,0.5); transform:scale(1);}
@@ -37,10 +39,7 @@ button {
   margin:0 15px;
   transition: transform 0.2s, box-shadow 0.3s;
 }
-button:hover {
-  transform: scale(1.15);
-  box-shadow:0 0 20px rgba(255,0,100,0.7);
-}
+button:hover { transform: scale(1.15); box-shadow:0 0 20px rgba(255,0,100,0.7); }
 #yes { background:#ff2e63; color:white;}
 #no { background:white; color:#ff2e63;}
 /* Play/Pause */
@@ -56,10 +55,17 @@ button:hover {
   0%,100%{ box-shadow:0 0 15px rgba(255,0,150,0.6); transform:scale(1);}
   50%{ box-shadow:0 0 35px rgba(255,0,150,0.9); transform:scale(1.1);}
 }
-/* Hearts */
+/* Floating hearts for text */
+.textHeart {
+  position:absolute; font-size:14px; animation: floatUpText 3s linear forwards; opacity:0.9;
+}
+@keyframes floatUpText {
+  0%{ transform: translateY(0) scale(1); opacity:1;}
+  100%{ transform: translateY(-60px) scale(0.5); opacity:0;}
+}
+/* Floating Hearts + Confetti */
 .heart { position:absolute; font-size:22px; animation: floatUp 4s linear infinite; opacity:0.8; }
-@keyframes floatUp { 0%{ transform:translateY(100vh) scale(1); opacity:1;} 100%{ transform:translateY(-10vh) scale(0.5); opacity:0;} }
-/* Confetti */
+@keyframes floatUp { 0% { transform: translateY(100vh) scale(1); opacity:1;} 100% { transform: translateY(-10vh) scale(0.5); opacity:0;} }
 .confetti { position:absolute; width:10px; height:10px; opacity:0.7; pointer-events:none; z-index:999; animation: confettiFall 3s linear forwards;}
 @keyframes confettiFall { 0%{ transform:translateY(0) rotate(0deg); opacity:1;} 100%{ transform:translateY(100vh) rotate(360deg); opacity:0;}}
 </style>
@@ -78,13 +84,24 @@ button:hover {
 <audio id="bgMusic" src="romantic.mp3" preload="auto"></audio>
 
 <script>
+// Floating hearts on text
+function createTextHeart(){
+  const h = document.createElement("div");
+  h.classList.add("textHeart");
+  h.innerHTML="❤️";
+  h.style.left = Math.random()*120-60 + "px"; // around text
+  document.getElementById('mainText').appendChild(h);
+  setTimeout(()=>h.remove(),3000);
+}
+setInterval(createTextHeart,300);
+
 // Hearts
 function createHeart() {
   const heart = document.createElement("div");
   heart.classList.add("heart");
-  heart.innerHTML = "❤️";
+  heart.innerHTML="❤️";
   heart.style.left = Math.random()*100 + "vw";
-  heart.style.animationDuration = (Math.random()*2+3) + "s";
+  heart.style.animationDuration = (Math.random()*2+3)+"s";
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(),4000);
 }
@@ -92,43 +109,42 @@ setInterval(createHeart,400);
 
 // Confetti
 function createConfetti() {
-  const confetti = document.createElement("div");
-  confetti.classList.add("confetti");
-  confetti.style.left = Math.random()*window.innerWidth + "px";
-  confetti.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
-  confetti.style.width = Math.random()*10+5 + "px";
-  confetti.style.height = confetti.style.width;
-  document.body.appendChild(confetti);
-  setTimeout(()=>confetti.remove(),3000);
+  const c=document.createElement("div");
+  c.classList.add("confetti");
+  c.style.left=Math.random()*window.innerWidth+"px";
+  c.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;
+  c.style.width=Math.random()*10+5+"px";
+  c.style.height=c.style.width;
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),3000);
 }
 
 // Buttons
-const yesBtn = document.getElementById("yes");
-const noBtn = document.getElementById("no");
-const bgMusic = document.getElementById("bgMusic");
-const playPauseBtn = document.getElementById('playPause');
-const mainText = document.getElementById('mainText');
+const yesBtn=document.getElementById("yes");
+const noBtn=document.getElementById("no");
+const bgMusic=document.getElementById("bgMusic");
+const playPauseBtn=document.getElementById('playPause');
+const mainText=document.getElementById('mainText');
 
-yesBtn.onclick = () => {
+yesBtn.onclick=()=>{
   document.getElementById('buttons').style.display='none';
   for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
   setInterval(createHeart,400);
-  mainText.textContent = "Би чамд хайртай болж хувирна 💖";
-  if(bgMusic.paused){ bgMusic.play(); playPauseBtn.textContent='⏸️'; }
+  mainText.textContent="Би чамд хайртай болж хувирна 💖";
 };
 
 noBtn.addEventListener("touchstart", moveButton);
 noBtn.addEventListener("mouseover", moveButton);
 function moveButton(){
-  const x = Math.random()*(window.innerWidth-100);
-  const y = Math.random()*(window.innerHeight-50);
+  const x=Math.random()*(window.innerWidth-100);
+  const y=Math.random()*(window.innerHeight-50);
   noBtn.style.position="absolute";
   noBtn.style.left=x+"px";
   noBtn.style.top=y+"px";
 }
 
-// Play/Pause button
-playPauseBtn.onclick = () => {
+// Play/Pause
+playPauseBtn.onclick=()=>{
   if(bgMusic.paused){ bgMusic.play(); playPauseBtn.textContent='⏸️'; }
   else{ bgMusic.pause(); playPauseBtn.textContent='▶️'; }
 };
