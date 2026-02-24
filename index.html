@@ -15,12 +15,10 @@ body {
   align-items: center;
   font-family: 'Arial', sans-serif;
   overflow: hidden;
-  position: relative;
 }
 .container {
   text-align: center;
   color: white;
-  padding: 20px;
   z-index: 2;
 }
 #text {
@@ -29,6 +27,7 @@ body {
   margin-bottom: 15px;
   text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
 }
+/* Buttons */
 button {
   padding: 18px 35px;
   font-size: 1.3em;
@@ -80,9 +79,9 @@ button:hover {
   width: 100%;
   max-width: 600px;
   display: block;
-  margin: 20px auto;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  position: relative;
 }
 </style>
 </head>
@@ -90,14 +89,26 @@ button:hover {
 
 <div class="container">
   <div id="text">Надтай үерхээч 💘</div>
-  
-  <!-- YOUR IMAGE HERE -->
-  <img src="romantic_design.png" id="romanticImage" alt="Romantic Design">
 
-  <div id="buttons">
-    <button id="yes">Тийм 💖</button>
-    <button id="no">Үгүй 😅</button>
+  <!-- Image container with overlay buttons -->
+  <div style="position: relative; display: inline-block; width: 100%; max-width: 600px;">
+    <img src="romantic_design.png" id="romanticImage" alt="Romantic Design">
+
+    <!-- Buttons overlay -->
+    <div id="buttons" style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      gap: 15px;
+      z-index: 5;
+    ">
+      <button id="yes">Тийм 💖</button>
+      <button id="no">Үгүй 😅</button>
+    </div>
   </div>
+
   <div id="message">Би чамд үнэхээр их хайртай 💞😘</div>
 </div>
 
@@ -140,9 +151,9 @@ yesBtn.onclick = () => {
   buttons.style.display = "none";
   message.style.display = "block";
   alert("Би чамд үнэхээр их хайртай 💞😘");
+
   for(let i=0;i<50;i++) setTimeout(createConfetti,i*50);
 
-  // Play music
   bgMusic.play();
 };
 
